@@ -27,11 +27,20 @@ const modifyPackageJson = async () => {
     ...(packageObj.scripts || {}),
     prepare: 'husky install'
   }
+
+  // 配置检查规则
+  packageObj['lint-staged'] =  {
+    "*.{js,jsx,vue,tsx, tx}": [
+      "prettier --write",
+      "eslint --ext .vue,.js,.jsx,.tsx,.ts --fix",
+      "git add"
+    ]
+  }
   writeJsonSync(`${path.resolve('./')}/package.json`, packageObj)
   await execa.command('npm run prepare')
 
   console.log(`${path.resolve('./')}/.husky/`, '++++++++++')
-  copySync(`${__dirname}/config/husky/`, `${path.resolve('./')}/.husky/`)
+  // copySync(`${__dirname}/config/husky/`, `${path.resolve('./')}/.husky/`)
 }
 
 // 安装依赖
