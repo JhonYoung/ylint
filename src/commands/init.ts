@@ -37,7 +37,7 @@ const modifyPackageJson = async () => {
     ]
   }
   writeJsonSync(`${path.resolve('./')}/package.json`, packageObj)
-  
+
   // 初始化husky配置
   await execa.command('npm run prepare')
   copySync(`${__dirname}/config/pre-commit`, `${path.resolve('./')}/.husky/pre-commit`)
@@ -93,7 +93,7 @@ const copyConfig = async (config?: any,removeFirst?: boolean) => {
     }))
     await pro;
   }
-  copySync(`${__dirname}/config`, path.resolve('./'))
+    copySync(`${__dirname}/config`, path.resolve('./'))
   installPackages();
 }
 
