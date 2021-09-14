@@ -19,7 +19,6 @@ const checkConfigFile = async () => {
   return false
 }
 
-
 // 修改package.json, 并初始化husky配置
 const modifyPackageJson = async () => {
   const packageObj = readJsonSync(`${path.resolve('./')}/package.json`)
@@ -92,7 +91,7 @@ const copyConfig = async (config?: any,removeFirst?: boolean) => {
       return remove(path)
     }))
     await pro;
-    
+
   }
     copySync(`${__dirname}/config`, path.resolve('./'))
   installPackages();
