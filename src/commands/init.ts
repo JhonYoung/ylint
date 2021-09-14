@@ -1,5 +1,5 @@
 import {Command} from '@oclif/command'
-import {pathExists, remove, copySync, readJsonSync} from 'fs-extra';
+import {pathExists, remove, copySync, writeJsonSync, readJsonSync, outputFileSync} from 'fs-extra';
 import * as path from 'path'
 import * as inquirer from 'inquirer';
 import * as ora from 'ora';
@@ -20,6 +20,21 @@ const checkConfigFile = async () => {
 }
 
 
+// 修改package.json, 并初始化husky配置
+const modifyPackageJson = async () => {
+  const packageObj = readJsonSync(`${path.resolve('./')}/package.json`)
+  packageObj.scripts = {
+    ...(packageObj.scripts || {}),
+    prepare: 'husky install'
+  }
+  writeJsonSync(`${path.resolve('./')}/package.json`, packageObj)
+  await execa.command('npm run prepare')
+
+  console.log(`${path.resolve('./')}/.husky/`, '++++++++++')
+  copySync(`${__dirname}/config/husky/`, `${path.resolve('./')}/.husky/`)
+}
+
+// 安装依赖
 const installPackages = async () => {
   const spinner = ora({
     text: 'install eslint',
@@ -27,53 +42,37 @@ const installPackages = async () => {
     color: 'yellow'
   }).start();
  
-  await execa.command('npm i eslint --save-dev')
+  // await execa.command('npm i eslint --save-dev')
+  // spinner.text = 'install prettier';
+  // await execa.command('npm i prettier --save-dev')
 
-  spinner.text = 'install prettier';
-  await execa.command('npm i prettier --save-dev')
+  // spinner.text = 'install babel-eslint';
+  // await execa.command('npm i babel-eslint --save-dev')
 
-  spinner.text = 'install babel-eslint';
-  await execa.command('npm i babel-eslint --save-dev')
+  // spinner.text = 'install eslint-plugin-prettier';
+  // await execa.command('npm i eslint-plugin-prettier --save-dev')
 
-  spinner.text = 'install eslint-plugin-prettier';
-  await execa.command('npm i eslint-plugin-prettier --save-dev')
+  // spinner.text = 'install husky';
+  // await execa.command('npm i husky --save-dev')
 
-  spinner.text = 'install husky';
-  await execa.command('npm i husky --save-dev')
+  // spinner.text = 'install lint-staged';
+  // await execa.command('npm i lint-staged --save-dev')
 
-  spinner.text = 'install lint-staged';
-  await execa.command('npm i lint-staged --save-dev')
+  // spinner.text = 'install standard';
+  // await execa.command('npm i standard --save-dev')
 
-  spinner.text = 'install standard';
-  await execa.command('npm i standard --save-dev')
+  // spinner.text = 'install typescript';
+  // await execa.command('npm i typescript --save-dev')
 
-  spinner.text = 'install typescript';
-  await execa.command('npm i typescript --save-dev')
-
-  spinner.text = 'install @typescript-eslint/parser';
-  await execa.command('npm i @typescript-eslint/parser --save-dev')
-
-  spinner.text = 'install @typescript-eslint/eslint-plugin';
-  await execa.command('npm i @typescript-eslint/eslint-plugin --save-dev')
-  
+  // spinner.text = 'install @typescript-eslint/parser';
+  // await execa.command('npm i @typescript-eslint/parser --save-dev')
+  // spinner.text = 'install @typescript-eslint/eslint-plugin';
   console.log('install success');
   spinner.color = 'green';
   setTimeout(() => {
     spinner.stop();
   }, 1000)
-
-  // execa('npm i eslint babel-eslint prettier eslint-plugin-prettier eslint-config-prettier husky lint-staged standard typescript @typescript-eslint/parser @typescript-eslint/eslint-plugin --save-dev')
-}
-
-
-// 修改package.json
-const modifyPackageJson = () => {
-  console.log('===============================')
-  const packageObj = readJsonSync(`${path.resolve('./')}/package.json`)
-  console.log(packageObj)
-  console.log('++++++++++++++++++')
-  console.log('++++++++++++++++++')
-  console.log('++++++++++++++++++')
+  modifyPackageJson()
 }
 
 // 移除原本的eslintrc prettierrc文件，并copy当前配置
@@ -84,14 +83,9 @@ const copyConfig = async (config?: any,removeFirst?: boolean) => {
     }))
     await pro;
   }
-  // console.log('dirname=======>', __dirname)
   copySync(`${__dirname}/config`, path.resolve('./'))
-
-  // modifyPackageJson();
   installPackages();
 }
-
-
 
 
 export class InitCommand extends Command {
