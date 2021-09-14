@@ -92,6 +92,7 @@ const copyConfig = async (config?: any,removeFirst?: boolean) => {
       return remove(path)
     }))
     await pro;
+    
   }
     copySync(`${__dirname}/config`, path.resolve('./'))
   installPackages();
