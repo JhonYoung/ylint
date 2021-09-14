@@ -40,7 +40,7 @@ const modifyPackageJson = async () => {
   // 初始化husky配置
   await execa.command('npm run prepare')
   copySync(`${__dirname}/config/pre-commit`, `${path.resolve('./')}/.husky/pre-commit`)
-
+  console.log('init success');
 }
 
 // 安装依赖
@@ -51,49 +51,49 @@ const installPackages = async () => {
     color: 'yellow'
   }).start();
  
-  // await execa.command('npm i eslint --save-dev')
-  // spinner.text = 'install prettier';
-  // await execa.command('npm i prettier --save-dev')
+  await execa.command('npm i eslint --save-dev')
+  spinner.text = 'install prettier';
+  await execa.command('npm i prettier --save-dev')
 
-  // spinner.text = 'install babel-eslint';
-  // await execa.command('npm i babel-eslint --save-dev')
+  spinner.text = 'install babel-eslint';
+  await execa.command('npm i babel-eslint --save-dev')
 
-  // spinner.text = 'install eslint-plugin-prettier';
-  // await execa.command('npm i eslint-plugin-prettier --save-dev')
+  spinner.text = 'install eslint-plugin-prettier';
+  await execa.command('npm i eslint-plugin-prettier --save-dev')
 
-  // spinner.text = 'install husky';
-  // await execa.command('npm i husky --save-dev')
+  spinner.text = 'install husky';
+  await execa.command('npm i husky --save-dev')
 
-  // spinner.text = 'install lint-staged';
-  // await execa.command('npm i lint-staged --save-dev')
+  spinner.text = 'install lint-staged';
+  await execa.command('npm i lint-staged --save-dev')
 
-  // spinner.text = 'install standard';
-  // await execa.command('npm i standard --save-dev')
+  spinner.text = 'install standard';
+  await execa.command('npm i standard --save-dev')
 
-  // spinner.text = 'install typescript';
-  // await execa.command('npm i typescript --save-dev')
+  spinner.text = 'install typescript';
+  await execa.command('npm i typescript --save-dev')
 
-  // spinner.text = 'install @typescript-eslint/parser';
-  // await execa.command('npm i @typescript-eslint/parser --save-dev')
-  // spinner.text = 'install @typescript-eslint/eslint-plugin';
+  spinner.text = 'install @typescript-eslint/parser';
+  await execa.command('npm i @typescript-eslint/parser --save-dev')
+  spinner.text = 'install @typescript-eslint/eslint-plugin';
+  
   console.log('install success');
   spinner.color = 'green';
   setTimeout(() => {
     spinner.stop();
   }, 1000)
-  modifyPackageJson()
+    modifyPackageJson()
 }
 
 // 移除原本的eslintrc prettierrc文件，并copy当前配置
-const copyConfig = async (config?: any,removeFirst?: boolean) => {
+const copyConfig = async (removeFirst?: boolean) => {
   if (removeFirst) {
     const pro = Promise.all(pathsToCheck.map((path: string) => {
       return remove(path)
     }))
     await pro;
-
   }
-    copySync(`${__dirname}/config`, path.resolve('./'))
+  copySync(`${__dirname}/config`, path.resolve('./'))
   installPackages();
 }
 
@@ -105,19 +105,19 @@ export class InitCommand extends Command {
     if (message) {
       inquirer.prompt([
         {
-          type: 'confirm',
+          type: "confirm",
           name: 'replace',
           message
         }
       ]).then(res => {
         if (res.replace) {
-          copyConfig(this.config, true);
+          copyConfig(true);
         } else {
           this.log('you choice not to replace, exist the process');
         }
       })
       return;
     }
-    copyConfig(this.config);
+    copyConfig();
   }
 }
