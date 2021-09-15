@@ -64,39 +64,31 @@ const modifyPackageJson = async () => {
 const installPackages = async () => {
   const spinner = ora({
     text: 'install eslint',
-    // spinner: 'moon',
     color: 'yellow',
   }).start()
 
-  // await execa.command('npm i eslint --save-dev')
-  // spinner.text = 'install prettier';
-  // await execa.command('npm i prettier --save-dev')
+  await execa.command('npm i eslint@7.32.0 --save-dev')
 
-  // spinner.text = 'install babel-eslint';
-  // await execa.command('npm i babel-eslint --save-dev')
+  spinner.text = 'install prettier'
+  await execa.command('npm i prettier --save-dev')
 
-  // spinner.text = 'install eslint-plugin-prettier';
-  // await execa.command('npm i eslint-plugin-prettier --save-dev')
+  spinner.text = 'install babel-eslint'
+  await execa.command('npm i babel-eslint --save-dev')
 
-  // spinner.text = 'install husky';
-  // await execa.command('npm i husky --save-dev')
+  spinner.text = 'install husky'
+  await execa.command('npm i husky --save-dev')
 
-  // spinner.text = 'install lint-staged';
-  // await execa.command('npm i lint-staged --save-dev')
+  spinner.text = 'install lint-staged'
+  await execa.command('npm i lint-staged --save-dev')
 
-  // spinner.text = 'install typescript';
-  // await execa.command('npm i typescript --save-dev')
-
-  // spinner.text = 'install @typescript-eslint/parser';
-  // await execa.command('npm i @typescript-eslint/parser --save-dev')
+  spinner.text = 'install typescript'
+  await execa.command('npm i typescript @typescript-eslint/parser --save-dev')
 
   spinner.text = 'install eslint plugins'
   await execa.command(
-    'npm install --save-dev eslint-plugin-promise eslint-plugin-import eslint-plugin-node eslint-plugin-react',
+    'npm install --save-dev eslint-plugin-promise eslint-plugin-import eslint-plugin-node eslint-plugin-react eslint-plugin-prettier',
   )
-  await execa.command(
-    'npm install eslint-config-standard@14.1.1 eslint-plugin-standard -dev',
-  )
+  await execa.command('npm install eslint-config-standard@14.1.1 -dev')
 
   console.log('install success')
   spinner.color = 'green'
