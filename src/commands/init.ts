@@ -1,3 +1,8 @@
+// 检查是否存在相关配置，提示用户是否覆盖
+// copy 配置到指定目录
+// 安装依赖
+// 修改package.json配置，husky的配置
+
 import { Command } from '@oclif/command'
 import {
   pathExists,
@@ -123,7 +128,7 @@ export class InitCommand extends Command {
           if (res.replace) {
             copyConfig(true)
           } else {
-            this.log('you choice not to replace, exist the process')
+            this.log('you choice not to replace')
           }
         })
       return
