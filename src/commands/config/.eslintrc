@@ -9,7 +9,8 @@
     "standard",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "prettier"
+    "prettier",
+    "plugin:react/jsx-runtime"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -23,6 +24,7 @@
     "comma-dangle": ["error", "always-multiline"],
     "no-async-promise-executor": ["off"],
     "no-use-before-define": ["off"],
+    "no-unused-expressions": ["off"],
 
     "react/display-name": ["off"],
     "react/prop-types": ["off"],
@@ -32,6 +34,6 @@
     "@typescript-eslint/no-non-null-assertion": ["off"],
     "@typescript-eslint/explicit-module-boundary-types": ["off"],
     "@typescript-eslint/ban-ts-comment": ["off"],
-    "@typescript-eslint/no-use-before-define": ["error"]
+    "@typescript-eslint/no-use-before-define": ["error"],
   }
 }

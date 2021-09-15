@@ -49,7 +49,7 @@ const modifyPackageJson = async () => {
   packageObj['lint-staged'] = {
     '*.{js,jsx,vue,tsx,ts,json}': [
       'prettier --write',
-      'eslint --ext .vue,.js,.jsx,.tsx,.ts --fix',
+      'eslint --ext .vue,.js,.jsx,.tsx,.ts,.json --fix',
       'git add',
     ],
   }
@@ -61,7 +61,6 @@ const modifyPackageJson = async () => {
     `${__dirname}/config/pre-commit`,
     `${path.resolve('./')}/.husky/pre-commit`,
   )
-  console.log('init success')
 }
 
 // 安装依赖
@@ -88,7 +87,6 @@ const installPackages = async () => {
   spinner.text = 'install npm packages success'
   spinner.color = 'green'
 
-  console.log('install npm packages success')
   setTimeout(() => {
     spinner.stop()
   }, 1000)
