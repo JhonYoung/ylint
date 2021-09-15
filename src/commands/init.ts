@@ -5,7 +5,6 @@ import {
   copySync,
   writeJsonSync,
   readJsonSync,
-  outputFileSync,
 } from 'fs-extra'
 import * as path from 'path'
 import * as inquirer from 'inquirer'
@@ -67,31 +66,24 @@ const installPackages = async () => {
     color: 'yellow',
   }).start()
 
-  await execa.command('npm i eslint@7.32.0 --save-dev')
+  await execa.command('npm i eslint@7.32.0 babel-eslint prettier --save-dev')
 
-  spinner.text = 'install prettier'
-  await execa.command('npm i prettier --save-dev')
+  spinner.text = 'install husky and lint-staged'
+  await execa.command('npm i husky lint-staged --save-dev')
 
-  spinner.text = 'install babel-eslint'
-  await execa.command('npm i babel-eslint --save-dev')
-
-  spinner.text = 'install husky'
-  await execa.command('npm i husky --save-dev')
-
-  spinner.text = 'install lint-staged'
-  await execa.command('npm i lint-staged --save-dev')
-
-  spinner.text = 'install typescript'
+  spinner.text = 'install typescript and typescript-eslint'
   await execa.command('npm i typescript @typescript-eslint/parser --save-dev')
 
   spinner.text = 'install eslint plugins'
   await execa.command(
     'npm install --save-dev eslint-plugin-promise eslint-plugin-import eslint-plugin-node eslint-plugin-react eslint-plugin-prettier',
   )
-  await execa.command('npm install eslint-config-standard@14.1.1 -dev')
+  await execa.command('npm install eslint-config-standard@14.1.1 --save-dev')
 
-  console.log('install success')
+  spinner.text = 'install npm packages success'
   spinner.color = 'green'
+
+  console.log('install npm packages success')
   setTimeout(() => {
     spinner.stop()
   }, 1000)
